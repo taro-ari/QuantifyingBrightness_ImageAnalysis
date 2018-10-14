@@ -1,0 +1,42 @@
+import cv2, matplotlib
+import numpy as np
+import matplotlib.pyplot as plt
+
+# read an image
+img = cv2.imread('test.bmp')
+
+# convert image to grayscale
+gray_img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+ 
+# grayscale image represented as a 2-d array
+print(gray_img)
+
+max = np.max(gray_img)
+print('max', max) 
+
+min = np.min(gray_img)
+print('min', min)
+
+X = np.array(gray_img)
+X1 = np.unravel_index(X.argmax(), X.shape)
+print('MAX position', X1)
+print (gray_img[X1[0]])
+
+X2=(gray_img[X1[0]])
+
+fig = plt.figure()
+
+#1つ目のグラフ
+ax1 = fig.add_subplot(1, 2, 1) 
+plt.hist(gray_img.ravel(),256,[0,256])
+ax1.set_title("Hist_BRIGHTNESS") 
+
+#2つ目のグラフ
+ax2 = fig.add_subplot(1, 2, 2) 
+ax2.plot(X2)
+ax2.set_title("MAX_BRIGHTNESS") 
+
+plt.show()
+
+#CSVに生データ
+np.savetxt("BRIGHTNESS.csv", gray_img, fmt="%.0f",delimiter=",")
